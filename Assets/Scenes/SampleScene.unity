@@ -86492,7 +86492,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4358020165992929483}
   - component: {fileID: 5033227205069430133}
-  - component: {fileID: 5033227205069430132}
+  - component: {fileID: 5033227205069430138}
+  - component: {fileID: 5033227205069430137}
+  - component: {fileID: 5033227205069430136}
+  - component: {fileID: 5033227205069430135}
+  - component: {fileID: 5033227205069430134}
   m_Layer: 0
   m_Name: SmartJimminy
   m_TagString: Untagged
@@ -86500,22 +86504,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5033227205069430132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5033227205069430131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a745c3d88a86ea41b9a230415dcd97e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <target>k__BackingField: {fileID: 0}
-  state: 0
-  detectionRadius: 0
-  states: []
 --- !u!195 &5033227205069430133
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -86538,6 +86526,83 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5033227205069430134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5033227205069430131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a745c3d88a86ea41b9a230415dcd97e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <target>k__BackingField: {fileID: 996908478}
+  state: 0
+  detectionRadius: 5
+  states: []
+--- !u!114 &5033227205069430135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5033227205069430131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d43f8784cd57c8e428f1cf8422e4d479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakingDistance: 0.1
+--- !u!114 &5033227205069430136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5033227205069430131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4ee5966ba15a0d4cba171bca9ce02d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakingDistance: 0.1
+  patrolPoint:
+  - {fileID: 1069070248}
+  - {fileID: 283816464}
+  - {fileID: 358414695}
+  - {fileID: 1670722137}
+  - {fileID: 2049426351}
+  - {fileID: 820427449}
+--- !u!114 &5033227205069430137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5033227205069430131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d17c22b72f35fdc48b40f06b1cce8648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakingDistance: 0.1
+  updateTime: 0.2
+--- !u!114 &5033227205069430138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5033227205069430131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf7a7087c5440b409e264ed4281d0bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  breakingDistance: 0.3
+  wanderRadius: 3
 --- !u!33 &5171519263041562012
 MeshFilter:
   m_ObjectHideFlags: 0

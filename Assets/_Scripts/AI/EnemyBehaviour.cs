@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.XR;
+using Random = UnityEngine.Random;
 
 public enum EnemyState
 {
@@ -11,12 +11,14 @@ public enum EnemyState
     Attack
 }
 
+[RequireComponent(typeof(AIWander), typeof(AIFollowTarget), typeof(AIPatrol)),
+    RequireComponent(typeof(AIDeath))]
 public class EnemyBehaviour : MonoBehaviour
 {
     [field: SerializeField] 
     public Transform target {  get; private set; }
 
-    public float speed { get; private set; }
+    public float speed { get; private set; } = 3.5f;
 
     [Header("Current State")]
     [SerializeField] private EnemyState state;
@@ -27,12 +29,22 @@ public class EnemyBehaviour : MonoBehaviour
 
     private SphereCollider _collider;
 
-    private void Start()
+    
+
+    private void Awake()
     {
         states = GetComponents<AiBase>();
-        _collider = gameObject.AddComponent<Collider>() as SphereCollider;
+        ChangeState(state);
+    }
+
+    private void Start()
+    {
+        
+        _collider = gameObject.AddComponent<SphereCollider>();
         _collider.radius = detectionRadius;
         _collider.isTrigger = true;
+
+        
     }
 
     private void Update()
@@ -43,16 +55,41 @@ public class EnemyBehaviour : MonoBehaviour
                 UpdateWander();
                 break;
             case EnemyState.FollowTarget:
+                UpdateFollowTarget();
                 break;
             case EnemyState.Patrol:
+                UpdatePatrol();
                 break;
             case EnemyState.Death:
+                UpdateDeath();
                 break;
             case EnemyState.Attack:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+
+    private void UpdateDeath()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void UpdatePatrol()
+    {
+        //For now, the conditions to change from patrol are the same as 
+        //from Wander, so we are going to save code:
+        UpdateWander();
+    }
+
+    private void UpdateFollowTarget()
+    {
+        if (PlayerIsOnRange(detectionRadius)) return;
+
+        speed = 3.5f;
+        var dice = Random.Range(0, 100);
+        ChangeState(dice >= 50 ? EnemyState.Wander : EnemyState.Patrol);
+
     }
 
     private void UpdateWander()

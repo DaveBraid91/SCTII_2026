@@ -9,7 +9,7 @@ public abstract class AiBase : MonoBehaviour
     protected NavMeshAgent agent;
     [SerializeField] protected float breakingDistance;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         enemyBehaviour = GetComponent<EnemyBehaviour>();
@@ -20,6 +20,6 @@ public abstract class AiBase : MonoBehaviour
     {
         agent.ResetPath();
         agent.stoppingDistance = breakingDistance;
-        //TODO: agent.speed = enemyBehaviour.speed;
+        agent.speed = enemyBehaviour.speed;
     }
 }
