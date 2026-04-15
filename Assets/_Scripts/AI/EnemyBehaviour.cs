@@ -12,7 +12,7 @@ public enum EnemyState
 }
 
 [RequireComponent(typeof(AIWander), typeof(AIFollowTarget), typeof(AIPatrol)),
-    RequireComponent(typeof(AIDeath))]
+    RequireComponent(typeof(AIDeath), typeof(Animator))]
 public class EnemyBehaviour : MonoBehaviour
 {
     [field: SerializeField] 
@@ -28,8 +28,22 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private AiBase[] states;
 
     private SphereCollider _collider;
+    private Animator _anim;
+    private bool _isDead;
+    public bool IsDead 
+    {  
+        get 
+        { 
+            return _isDead; 
+        } 
+        set 
+        { 
+            _isDead = value; 
+        } 
+    }
 
-    
+    private readonly int Speed = Animator.StringToHash("Speed");
+    private readonly int Die = Animator.StringToHash("Die");
 
     private void Awake()
     {
@@ -40,11 +54,12 @@ public class EnemyBehaviour : MonoBehaviour
     private void Start()
     {
         
+        _anim = GetComponent<Animator>();
         _collider = gameObject.AddComponent<SphereCollider>();
         _collider.radius = detectionRadius;
         _collider.isTrigger = true;
 
-        
+        _anim.SetFloat(Speed, speed);
     }
 
     private void Update()
@@ -72,7 +87,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void UpdateDeath()
     {
-        throw new NotImplementedException();
+        _anim.SetTrigger(Die);
     }
 
     private void UpdatePatrol()
@@ -84,9 +99,17 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void UpdateFollowTarget()
     {
-        if (PlayerIsOnRange(detectionRadius)) return;
+        if (PlayerIsOnRange(detectionRadius) && !_isDead) return;
+
+        if (_isDead)
+        {
+            ChangeState(EnemyState.Death);
+            speed = 0;
+            return;
+        }
 
         speed = 3.5f;
+        _anim.SetFloat (Speed, speed);
         var dice = Random.Range(0, 100);
         ChangeState(dice >= 50 ? EnemyState.Wander : EnemyState.Patrol);
 
@@ -94,17 +117,18 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void UpdateWander()
     {
-        if (!PlayerIsOnRange(detectionRadius) /*&& _enemyHealth.CurrentHealth > 0*/ ) return;
+        if (!PlayerIsOnRange(detectionRadius) && !_isDead ) return;
 
-        if (false)
+        if (_isDead)
         {
             ChangeState(EnemyState.Death);
-            speed = 0f;
+            speed = 0;
             return;
         }
 
         speed = 7f;
         ChangeState(EnemyState.FollowTarget);
+        _anim.SetFloat(Speed, speed);
     }
 
     private void ChangeState(EnemyState newState)
