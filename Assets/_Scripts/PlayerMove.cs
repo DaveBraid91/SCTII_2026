@@ -24,6 +24,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private AnimationCurve slideSlowDownCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
 
     private CharacterController _characterController;
+    private Animator _anim;
 
     private Vector3 _playerVelocity;
     private float _verticalVelocity;
@@ -35,9 +36,15 @@ public class PlayerMove : MonoBehaviour
     private bool _isJumping = false;
     private bool _isSliding = false;
 
+    private static readonly int XSpeed = Animator.StringToHash("xSpeed");
+    private static readonly int ZSpeed = Animator.StringToHash("zSpeed");
+    private static readonly int Jump = Animator.StringToHash("jump");
+    private static readonly int EndJump = Animator.StringToHash("endJump");
+
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
+        _anim = GetComponent<Animator>();
         slideSlope = _characterController.slopeLimit;
         _slidingSlowdownTimeInverse = 1 / slideSlowdownTime;
     }
@@ -74,6 +81,9 @@ public class PlayerMove : MonoBehaviour
         input = new Vector3(input.x * sideSpeed, 0 , input.z * forwardSpeed);
 
         _playerVelocity = input;
+
+        _anim.SetFloat(XSpeed, xInput);
+        _anim.SetFloat(ZSpeed, yInput);
     }
 
     private void UpdateVerticalVelocity()
@@ -82,11 +92,13 @@ public class PlayerMove : MonoBehaviour
         {
             _isJumping = true;
             _verticalVelocity = jumpForce;
+            _anim.SetTrigger(Jump);
         }
 
         if (_isJumping && _characterController.isGrounded && _characterController.velocity.y < 0)
         {
             _isJumping = false;
+            _anim.SetTrigger(EndJump);
         }
 
         if(!_isJumping && _characterController.isGrounded && _characterController.velocity.y < 0)
