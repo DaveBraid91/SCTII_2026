@@ -7,6 +7,7 @@ public abstract class BaseHealth : MonoBehaviour, IDamageable
     [SerializeField] protected float maxHealth = 100f;
     [SerializeField] protected float damageCooldown;
     [SerializeField] protected float deathCooldown;
+    [SerializeField] protected LifeBarUI lifeBarUI;
 
     public float CurrentHealth { get; protected set; }
 
@@ -18,6 +19,7 @@ public abstract class BaseHealth : MonoBehaviour, IDamageable
     protected virtual void Start()
     {
         _anim = GetComponent<Animator>();
+        lifeBarUI = GetComponentInChildren<LifeBarUI>();
         CurrentHealth = maxHealth;
         _canTakeDamage = true;
     }
@@ -28,6 +30,7 @@ public abstract class BaseHealth : MonoBehaviour, IDamageable
 
         Debug.Log($"Health pre-damage: {CurrentHealth}");
         CurrentHealth -= damage;
+        lifeBarUI.UpdateLifeBar(this);
         Debug.Log($"Health post-damage: {CurrentHealth}");
 
         if(CurrentHealth <= 0f)
